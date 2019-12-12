@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/dinedal/textql/test_util"
+	"github.com/9072997/sqlTransform/test_util"
 )
 
 var (

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dinedal/textql/sqlparser/sqltypes"
+	"github.com/9072997/sqlTransform/sqlparser/sqltypes"
 )
 
 const EOFCHAR = 0x100

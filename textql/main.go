@@ -9,10 +9,10 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/dinedal/textql/inputs"
-	"github.com/dinedal/textql/outputs"
-	"github.com/dinedal/textql/storage"
-	"github.com/dinedal/textql/util"
+	"github.com/9072997/sqlTransform/inputs"
+	"github.com/9072997/sqlTransform/outputs"
+	"github.com/9072997/sqlTransform/storage"
+	"github.com/9072997/sqlTransform/util"
 )
 
 type commandLineOptions struct {
