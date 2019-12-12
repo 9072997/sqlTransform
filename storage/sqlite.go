@@ -3,7 +3,6 @@ package storage
 import (
 	"bytes"
 	"database/sql"
-	"path"
 	"strings"
 
 	"log"
@@ -79,7 +78,9 @@ func (sqlite3Storage *SQLite3Storage) open() {
 // LoadInput reads the entire Input provided into a table named after the Input name.
 // The name is cooreced into a valid SQLite3 table name prior to use.
 func (sqlite3Storage *SQLite3Storage) LoadInput(input inputs.Input) {
-	tableName := strings.Replace(input.Name(), path.Ext(input.Name()), "", -1)
+	// for our use case we only ever pass data in via stdin and we always
+	// want that table to be called source
+	tableName := "source"
 	sqlite3Storage.createTable(tableName, input.Header(), false)
 
 	tx, txErr := sqlite3Storage.db.Begin()
