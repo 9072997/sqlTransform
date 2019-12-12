@@ -1,3 +1,5 @@
+This is a fork of [dinedal/textql](https://github.com/dinedal/textql). It is an attempt to add a regexp module to sqlite and makes other changes specific to the needs of StandardExports, which is a currently unreleased project.
+
 # TextQL
 
 [![Build Status](https://travis-ci.org/9072997/sqlTransform.svg)](https://travis-ci.org/9072997/sqlTransform) [![Go Report Card](http://goreportcard.com/badge/9072997/sqlTransform)](http://goreportcard.com/report/9072997/sqlTransform)
