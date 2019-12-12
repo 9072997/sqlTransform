@@ -37,7 +37,28 @@ func init() {
 		&sqlite3.SQLiteDriver{
 			ConnectHook: func(conn *sqlite3.SQLiteConn) error {
 				sqlite3conn = append(sqlite3conn, conn)
-				return conn.RegisterFunc("regexp", regExp, true)
+
+				err := conn.RegisterFunc("regexp", regExp, true)
+				if err != nil {
+					return err
+				}
+
+				err = conn.RegisterFunc("reg_replace", regReplace, true)
+				if err != nil {
+					return err
+				}
+
+				err = conn.RegisterFunc("split_part", splitPart, true)
+				if err != nil {
+					return err
+				}
+
+				err = conn.RegisterFunc("parse_date", parseDate, true)
+				if err != nil {
+					return err
+				}
+
+				return nil
 			},
 		})
 }

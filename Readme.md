@@ -1,4 +1,5 @@
 This is a fork of [dinedal/textql](https://github.com/dinedal/textql). It is an attempt to add a regexp module to sqlite and makes other changes specific to the needs of StandardExports, which is a currently unreleased project.
+Extra functions are here: storage\sqlite_customfunc.go
 
 # TextQL
 
