@@ -48,6 +48,11 @@ func init() {
 					return err
 				}
 
+				err = conn.RegisterFunc("reg_find", regFind, true)
+				if err != nil {
+					return err
+				}
+
 				err = conn.RegisterFunc("split_part", splitPart, true)
 				if err != nil {
 					return err
