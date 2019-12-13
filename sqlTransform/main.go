@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -36,6 +37,7 @@ var VERSION string
 func newCommandLineOptions() *commandLineOptions {
 	cmdLineOpts := commandLineOptions{}
 	cmdLineOpts.Statements = flag.String("sql", "", "SQL Statement(s) to run on the data")
+	base64Statements := flag.String("b64sql", "", "Base64 encoded SQL statement(s) to run on the data")
 	cmdLineOpts.Delimiter = flag.String("dlm", ",", "Input delimiter character between fields -dlm=tab for tab, -dlm=0x## to specify a character code in hex")
 	cmdLineOpts.Header = flag.Bool("header", false, "Treat input files as having the first row as a header row")
 	cmdLineOpts.OutputHeader = flag.Bool("output-header", false, "Display column names in output")
@@ -48,6 +50,17 @@ func newCommandLineOptions() *commandLineOptions {
 	cmdLineOpts.Pretty = flag.Bool("pretty", false, "Output pretty formatting")
 	flag.Usage = cmdLineOpts.Usage
 	flag.Parse()
+
+	// if we were given a base64 encoded sql string, decode it and replace
+	// the normal sql string
+	if len(*base64Statements) > 0 {
+		statements, err := base64.StdEncoding.DecodeString(*base64Statements)
+		if err != nil {
+			panic(err)
+		}
+		statementsStr := string(statements)
+		cmdLineOpts.Statements = &statementsStr
+	}
 
 	return &cmdLineOpts
 }
@@ -146,7 +159,7 @@ func main() {
 	for _, taggedName := range cmdLineOpts.GetSourceFiles() {
 		// support <tablename>:<filename> syntax
 		var names = strings.SplitN(taggedName, ":", 2)
-		var sourceFile = names[len(names) - 1]
+		var sourceFile = names[len(names)-1]
 
 		if util.IsPathDir(sourceFile) {
 			for _, file := range util.AllFilesInDirectory(sourceFile) {
@@ -162,7 +175,7 @@ func main() {
 	for _, taggedName := range inputSources {
 		// support <tablename>:<filename> syntax
 		var names = strings.SplitN(taggedName, ":", 2)
-		var file = names[len(names) - 1]
+		var file = names[len(names)-1]
 
 		fp := util.OpenFileOrStdDev(file, false)
 
