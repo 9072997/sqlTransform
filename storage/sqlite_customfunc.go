@@ -23,7 +23,7 @@ func regReplace(patternI, replacementI, subjectI interface{}) string {
 
 	matcher, err := regexp.Compile(pattern)
 	if err != nil {
-		return err.Error()
+		return fmt.Sprintf("RegEx Pattern Error: %s", err)
 	}
 	return matcher.ReplaceAllString(subject, replacement)
 }
@@ -34,7 +34,7 @@ func regFind(patternI, subjectI interface{}) string {
 
 	matcher, err := regexp.Compile(pattern)
 	if err != nil {
-		return err.Error()
+		return fmt.Sprintf("RegEx Pattern Error: %s", err)
 	}
 	return matcher.FindString(subject)
 }
