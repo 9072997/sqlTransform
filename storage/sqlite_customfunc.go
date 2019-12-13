@@ -56,19 +56,10 @@ func splitPart(subjectI, deliminiterI interface{}, fieldNumber uint) string {
 	return fields[fieldIndex]
 }
 
-func parseDate(dateStringI, exampleI interface{}) string {
+func parseDate(dateStringI interface{}) string {
 	dateString := fmt.Sprintf("%v", dateStringI)
-	example := fmt.Sprintf("%v", exampleI)
 
-	format, err := dateparse.ParseFormat(example)
-	if err != nil {
-		return fmt.Sprintf("Error parsing example: %s", err)
-	}
-	timezone, err := time.LoadLocation("Local")
-	if err != nil {
-		return fmt.Sprintf("Error getting timezone: %s", err)
-	}
-	date, err := time.ParseInLocation(format, dateString, timezone)
+	date, err := dateparse.ParseAny(dateString)
 	if err != nil {
 		return fmt.Sprintf("Error parseing date: %s", err)
 	}
