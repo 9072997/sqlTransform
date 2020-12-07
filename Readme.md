@@ -5,7 +5,6 @@ Extra functions are here: storage\sqlite_customfunc.go
 
 [![Build Status](https://travis-ci.org/9072997/sqlTransform.svg)](https://travis-ci.org/9072997/sqlTransform) [![Go Report Card](http://goreportcard.com/badge/9072997/sqlTransform)](http://goreportcard.com/report/9072997/sqlTransform)
 
-
 Allows you to easily execute SQL against structured text like CSV or TSV.
 
 Example session:
@@ -74,20 +73,26 @@ go get -u github.com/9072997/sqlTransform/...
 ```
 
 ## Docker
+
 First build the image.
+
 ```bash
 docker build -t textql .
 ```
+
 Now use that image mounting your current directory into the container.
+
 ```bash
 docker run --rm -it -v $(pwd):/tmp textql [rest_of_command]
 ```
+
 ### Alias
+
 You can add the following alias to your system to provide quick access to TextQL:
+
 ```bash
 alias textql='docker run --rm -it -v $(pwd):/tmp textql '
 ```
-
 
 ## Usage
 
@@ -118,6 +123,15 @@ alias textql='docker run --rm -it -v $(pwd):/tmp textql '
         Print version and exit
 ```
 
+## I want stdev, average, other functions
+
+Just follow the install directions at [go-sqlite3-extension-functions](https://github.com/dinedal/go-sqlite3-extension-functions) and textql will automatically load this library.
+
+Full function list:
+
+- Math: acos, asin, atan, atn2, atan2, acosh, asinh, atanh, difference, degrees, radians, cos, sin, tan, cot, cosh, sinh, tanh, coth, exp, log, log10, power, sign, sqrt, square, ceil, floor, pi.
+- String: replicate, charindex, leftstr, rightstr, ltrim, rtrim, trim, replace, reverse, proper, padl, padr, padc, strfilter.
+- Aggregate: stdev, variance, mode, median, lower_quartile, upper_quartile
 
 ## License
 
