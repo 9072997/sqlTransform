@@ -39,21 +39,30 @@ func regFind(patternI, subjectI interface{}) string {
 	return matcher.FindString(subject)
 }
 
-func splitPart(subjectI, deliminiterI interface{}, fieldNumber uint) string {
+func splitPart(subjectI, deliminiterI interface{}, fieldNumber uint) []byte {
+	// for some reason null is represented as []uint8{}
+	if subjectUint8Arr, isUint8Arr := subjectI.([]uint8); isUint8Arr {
+		if len(subjectUint8Arr) == 0 {
+			return nil
+		}
+	}
+
 	subject := fmt.Sprintf("%v", subjectI)
 	deliminiter := fmt.Sprintf("%v", deliminiterI)
 
 	fields := strings.Split(subject, deliminiter)
 	maxIndex := len(fields) - 1
 	if fieldNumber == 0 {
-		return "Can't get field 0 (fields start from 1)"
+		return []byte("Can't get field 0 (fields start from 1)")
 	}
 	fieldIndex := int(fieldNumber) - 1
 	if fieldIndex > maxIndex {
-		return fmt.Sprintf(`Requested field %d but only %d fields in "%s"`,
-			fieldNumber, len(fields), subject)
+		return []byte(
+			fmt.Sprintf(`Requested field %d but only %d fields in "%s"`,
+				fieldNumber, len(fields), subject),
+		)
 	}
-	return fields[fieldIndex]
+	return []byte(fields[fieldIndex])
 }
 
 func parseDate(dateStringI interface{}) string {
