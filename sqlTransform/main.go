@@ -123,6 +123,30 @@ func (clo *commandLineOptions) Usage() {
 	}
 }
 
+func handleSemiColon(sqlStrings *[]string) []string {
+	var stack []string
+	var current string
+	index := 0
+	current = (*sqlStrings)[index]
+	for {
+		if current == "" {
+			current = (*sqlStrings)[index]
+		}
+		count := strings.Count(current, "'")
+		if count%2 == 1 {
+			current = current + ";" + (*sqlStrings)[index+1]
+		} else {
+			stack = append(stack, current)
+			current = ""
+		}
+		index++
+		if index == len((*sqlStrings)) {
+			break
+		}
+	}
+	return stack
+}
+
 func main() {
 	cmdLineOpts := newCommandLineOptions()
 	var outputer outputs.Output
@@ -197,7 +221,13 @@ func main() {
 		storage.LoadInput(input)
 	}
 
+	if (strings.Count(cmdLineOpts.GetStatements(), "'") % 2) == 1 {
+		log.Fatalln("String contains odd number of \"'(Single Quotes)\"")
+	}
+
 	sqlStrings := strings.Split(cmdLineOpts.GetStatements(), ";")
+
+	sqlStrings = handleSemiColon(&sqlStrings)
 
 	if cmdLineOpts.GetOutputFile() != "" {
 		if cmdLineOpts.GetPretty() {
