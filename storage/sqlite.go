@@ -9,7 +9,6 @@ import (
 	"regexp"
 
 	"github.com/9072997/sqlTransform/inputs"
-	"github.com/9072997/sqlTransform/sqlparser"
 
 	sqlite3 "github.com/mattn/go-sqlite3"
 )
@@ -240,8 +239,7 @@ func (sqlite3Storage *SQLite3Storage) ExecuteSQLString(sqlQuery string) (*sql.Ro
 	var err error
 
 	if strings.Trim(sqlQuery, " ") != "" {
-		implictFromSQL := sqlparser.Magicify(sqlQuery, sqlite3Storage.firstTableName)
-		result, err = sqlite3Storage.db.Query(implictFromSQL)
+		result, err = sqlite3Storage.db.Query(sqlQuery)
 		if err != nil {
 			return nil, err
 		}
@@ -258,8 +256,7 @@ func (sqlite3Storage *SQLite3Storage) Exec(sqlQuery string) (sql.Result, error) 
 	var err error
 
 	if strings.Trim(sqlQuery, " ") != "" {
-		implictFromSQL := sqlparser.Magicify(sqlQuery, sqlite3Storage.firstTableName)
-		result, err = sqlite3Storage.db.Exec(implictFromSQL)
+		result, err = sqlite3Storage.db.Exec(sqlQuery)
 		if err != nil {
 			return nil, err
 		}
